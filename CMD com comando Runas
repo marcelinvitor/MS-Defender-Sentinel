@@ -1,0 +1,8 @@
+// Autor: Marcelo Rodrigues
+// Busca pelo uso da execução do comando "runas" a partir do CMD, usado para executar processos com outro usuário  
+DeviceProcessEvents
+| order by Timestamp desc
+| where FileName == "cmd.exe"
+| where ProcessCommandLine contains "runas"
+| extend RunasSuccess = iff(ActionType == "ProcessCreated", "Sucesso", "Falha")
+| project Timestamp, DeviceName, AccountName, FileName, FolderPath, SHA256, ProcessCommandLine, InitiatingProcessFileName,ProcessVersionInfoCompanyName
