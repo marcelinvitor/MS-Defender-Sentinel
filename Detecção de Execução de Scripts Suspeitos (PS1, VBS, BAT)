@@ -1,0 +1,6 @@
+//Autor: Marcelo Rodrigues
+// Detectar scripts maliciosos que podem estar sendo executados fora dos diretórios confiáveis do sistema.
+DeviceProcessEvents 
+| where InitiatingProcessFileName endswith ".exe" or InitiatingProcessFileName endswith ".ps1" or InitiatingProcessFileName endswith ".bat" 
+| where FolderPath !startswith "C:\\Windows\\System32" and FolderPath !startswith "C:\\Program Files" 
+| project Timestamp, DeviceName, InitiatingProcessAccountName, InitiatingProcessFileName, ProcessCommandLine, FolderPath
