@@ -1,0 +1,10 @@
+// Autor: Marcelo Rodrigues  
+// Criação ou Promoção de Usuários para Admins
+// Identifica contas recém-criadas ou promovidas a grupos privilegiados
+DeviceEvents
+| where ActionType in ("UserAccountCreated",
+"UserAccountPrivilegeChanged")
+| where AccountDomain contains "Administrators"
+ or AccountDomain contains "Remote Desktop Users"
+ or AccountDomain contains "Domain Admins"
+| project Timestamp, DeviceName, AccountName,InitiatingProcessAccountName
