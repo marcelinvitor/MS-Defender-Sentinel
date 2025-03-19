@@ -3,6 +3,6 @@
 DeviceProcessEvents
 | order by Timestamp desc
 | where FileName == "cmd.exe"
-| where ProcessCommandLine contains "curl"
+| where ProcessCommandLine contains "runas"
 | extend RunasSuccess = iff(ActionType == "ProcessCreated", "Sucesso", "Falha")
 | project Timestamp, DeviceName, InitiatingProcessAccountName, InitiatingProcessFileName, ProcessCommandLine, InitiatingProcessVersionInfoCompanyName, InitiatingProcessSHA256
