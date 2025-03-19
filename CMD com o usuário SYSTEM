@@ -1,7 +1,14 @@
 // Autor: Marcelo Rodrigues
-// Busca pela execução do CMD com o usuário SYSTEM, o que pode indicar elevação de privilégios 
+// Busca por comandos do CMD sendo executados com privilégios SYSTEM, o que pode indicar elevação de privilégios. 
 DeviceProcessEvents
 | order by Timestamp desc
+| where AccountName == "system" or AccountName == "sistema" 
 | where FileName == "cmd.exe"
-| where AccountName == "NT AUTHORITY\\SYSTEM"
-| project Timestamp, DeviceName, AccountName, FileName, FolderPath, SHA256, ProcessCommandLine, InitiatingProcessFileName,ProcessVersionInfoCompanyName
+| where not(ProcessCommandLine contains "AtivaOfficex64.bat")
+| where InitiatingProcessFileName != @"core.exe"
+| where InitiatingProcessFileName != @"zabbix_agentd.exe"
+| where InitiatingProcessVersionInfoCompanyName != @"Intel Corporation"
+| where InitiatingProcessVersionInfoCompanyName != @"Dell Inc."
+| where InitiatingProcessVersionInfoCompanyName != @"Microsoft Corporation"
+| where InitiatingProcessVersionInfoCompanyName != @"Google LLC"
+| project Timestamp, DeviceName, FileName, InitiatingProcessAccountName, ProcessCommandLine, InitiatingProcessFileName, InitiatingProcessVersionInfoCompanyName, InitiatingProcessSHA256
