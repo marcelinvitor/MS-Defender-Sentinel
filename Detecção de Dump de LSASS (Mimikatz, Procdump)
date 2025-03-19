@@ -1,0 +1,8 @@
+DeviceProcessEvents 
+// Autor: Marcelo Rodrigues
+// Detecção de Dump de LSASS (Mimikatz, Procdump)
+// Identifica tentativas de roubo de credenciais usando Mimikatz, Procdump ou Task Manager.
+| where InitiatingProcessFileName in ("mimikatz.exe", "procdump.exe", "taskmgr.exe", "lsass.exe")
+| where InitiatingProcessParentFileName !in ("sysmon.exe", "MsMpEng.exe", "Defender.exe") 
+| where ProcessCommandLine contains "-accepteula"
+| project Timestamp, DeviceName, InitiatingProcessAccountName, FolderPath, SHA256, ProcessCommandLine, InitiatingProcessFileName,ProcessVersionInfoCompanyName
