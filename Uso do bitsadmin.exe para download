@@ -1,0 +1,9 @@
+// Autor: Marcelo Rodrigues  
+// Busca uso suspeito do BITSAdmin para download de arquivos via HTTP/S  
+// Detecta execuções iniciadas por navegadores ou contendo comandos suspeitos (.exe, .bat, .cmd, .ps1)  
+DeviceProcessEvents
+| order by Timestamp desc
+| where FileName == "bitsadmin.exe"
+| where ProcessCommandLine has_any ("http", "https", ".exe", ".bat", ".cmd", ".ps1")
+   or InitiatingProcessFileName in ("chrome.exe", "firefox.exe", "msedge.exe", "iexplore.exe", "opera.exe")
+| project Timestamp, DeviceName, AccountName, ProcessCommandLine, InitiatingProcessFileName,FolderPath,SHA256,ProcessVersionInfoCompanyName
