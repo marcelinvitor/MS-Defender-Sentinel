@@ -3,5 +3,6 @@
 DeviceProcessEvents
 | where FileName == "net.exe"
 | where ProcessCommandLine matches regex @"\b(net\s+(user|group|localgroup|accounts|view|use))\b"
-| project Timestamp, DeviceName, InitiatingProcessAccountName, InitiatingProcessFileName, ProcessCommandLine, InitiatingProcessVersionInfoCompanyName, InitiatingProcessSHA256
+| project Timestamp, DeviceName, InitiatingProcessAccountName, InitiatingProcessFileName, ProcessCommandLine, 
+InitiatingProcessVersionInfoCompanyName, InitiatingProcessSHA256
 | order by Timestamp desc
