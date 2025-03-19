@@ -1,0 +1,16 @@
+DeviceNetworkEvents
+//A consulta identifica conexões de IP's internos para IPs públicos em portas não convencionais (excluindo HTTP, HTTPS e DNS)
+| where ActionType == "ConnectionSuccess"
+| where RemoteIP !in ("127.0.0.1") 
+    and not(ipv4_is_private(RemoteIP))  // Exclui IPs privados
+| where RemotePort !in (80, 443, 53) // Exclui portas HTTP, HTTPS, DNS
+|project Timestamp, DeviceName, LocalIP, RemoteIP, RemotePort, InitiatingProcessFileName, InitiatingProcessCommandLine, InitiatingProcessSHA256
+| where InitiatingProcessFileName != @"msedge.exe"
+| where InitiatingProcessFileName != @"firefox.exe"
+| where InitiatingProcessFileName != @"whatsapp.exe"
+| where InitiatingProcessFileName != @"ntoskrnl.exe"
+| where InitiatingProcessFileName != @"chrome.exe"
+| where InitiatingProcessFileName != @"spotify.exe"
+| where InitiatingProcessFileName != @"opera.exe"
+| order by Timestamp desc
+
