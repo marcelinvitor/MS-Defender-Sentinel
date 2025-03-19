@@ -1,0 +1,7 @@
+// Autor: Marcelo Rodrigues
+// Detecção de Modificação do Arquivo Hosts (DNS Spoofing Interno)
+// Identifica tentativas de redirecionamento malicioso dentro do ambiente alterando o arquivo hosts.
+DeviceFileEvents 
+| where FolderPath endswith "\\System32\\drivers\\etc\\hosts" 
+| where ActionType in ("FileCreated", "FileModified") 
+| project Timestamp, DeviceName, InitiatingProcessAccountName, FolderPath, ActionType
