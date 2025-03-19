@@ -1,0 +1,8 @@
+// Autor: Marcelo Rodrigues
+//Busca por qualquer uso do wmic.exe iniciado pelo cmd.exe. 
+//Pode ser usada para identificar reconhecimento do sistema, movimentação lateral ou execução de código remoto.
+DeviceProcessEvents
+| where InitiatingProcessFileName == "cmd.exe"
+| where FileName == "wmic.exe"
+| project Timestamp, DeviceName, AccountName, ProcessCommandLine, InitiatingProcessFileName,FolderPath,SHA256,ProcessVersionInfoCompanyName,InitiatingProcessParentFileName
+| order by Timestamp desc
