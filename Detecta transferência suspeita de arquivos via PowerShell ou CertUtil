@@ -1,0 +1,8 @@
+// Autor: Marcelo Rodrigues
+// Detecta transferência suspeita de arquivos via PowerShell ou CertUtil
+DeviceProcessEvents
+| where ProcessCommandLine contains "Invoke-WebRequest" or ProcessCommandLine contains "certutil -urlcache -f"
+ or ProcessCommandLine contains "bitsadmin /transfer"
+| project Timestamp, DeviceName,ActionType, InitiatingProcessFileName, FileName, InitiatingProcessAccountName, 
+InitiatingProcessVersionInfoCompanyName, InitiatingProcessSHA256
+
