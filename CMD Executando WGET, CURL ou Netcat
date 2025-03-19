@@ -1,0 +1,8 @@
+// Autor: Marcelo Rodrigues
+//Busca por execuções do wget, curl e netcat que contenham http no comando, indicando um download remoto.
+DeviceProcessEvents
+| order by Timestamp desc
+| where InitiatingProcessFileName == "cmd.exe"
+| where FileName in ("wget.exe", "curl.exe", "nc.exe", "netcat.exe")
+| where ProcessCommandLine contains "http"
+| project Timestamp, DeviceName, AccountName, FileName, FolderPath, SHA256, ProcessCommandLine, InitiatingProcessFileName,ProcessVersionInfoCompanyName
