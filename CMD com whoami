@@ -1,0 +1,7 @@
+// Autor: Marcelo Rodrigues
+// Busca pela execução do comando "whoami" a partir do CMD, usado para reconhecimento do sistema
+DeviceProcessEvents
+| order by Timestamp desc
+| where FileName == "cmd.exe"
+| where ProcessCommandLine contains "whoami"
+| project Timestamp, DeviceName, AccountName, FileName, FolderPath, SHA256, ProcessCommandLine, InitiatingProcessFileName,ProcessVersionInfoCompanyName
