@@ -1,0 +1,9 @@
+// Autor: Marcelo Rodrigues  
+// Busca por carregamento de executáveis não assinados  
+// Detecta processos onde a assinatura digital está ausente, indicando possíveis ameaças  
+DeviceProcessEvents  
+| order by Timestamp desc
+| where isnull(ProcessVersionInfoCompanyName) 
+| where FileName endswith ".exe" 
+| where ActionType == "ProcessCreated"  
+| project Timestamp, DeviceName, AccountName, FileName, FolderPath, SHA256, ProcessCommandLine, InitiatingProcessFileName,ProcessVersionInfoCompanyName
