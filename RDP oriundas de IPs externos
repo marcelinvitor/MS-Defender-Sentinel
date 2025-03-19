@@ -1,0 +1,10 @@
+// Autor: Marcelo Rodrigues
+// Detecta conexões RDP (Remote Desktop Protocol) vindas de IPs externos
+DeviceLogonEvents
+| where LogonType == "RemoteInteractive"  // Logon via RDP
+| where isnotempty(RemoteIP)  // Garante que o IP remoto está registrado
+| where RemoteIP !startswith "10." and  // Exclui redes privadas (10.0.0.0/8)
+         RemoteIP !startswith "192.168." and  // Exclui redes privadas (192.168.0.0/16)
+         RemoteIP !startswith "172.16." and RemoteIP !startswith "172.31." // Exclui redes privadas (172.16.0.0/12)
+| order by Timestamp desc
+| project Timestamp, DeviceName, AccountName, RemoteIP, LogonType, ActionType
