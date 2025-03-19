@@ -1,0 +1,9 @@
+// Autor: Rennan Duarte
+// Monitoramento de Port Scanners (NMAP, Masscan, Angryip)
+// Detectar tentativas de varredura de rede dentro do ambiente.
+DeviceProcessEvents 
+| where ProcessCommandLine contains "nmap" 
+or ProcessCommandLine contains "masscan" 
+or ProcessCommandLine contains "angryip" 
+| where InitiatingProcessAccountName !in ("pentester", "security_team") 
+| project Timestamp, DeviceName, InitiatingProcessAccountName, ProcessCommandLine
