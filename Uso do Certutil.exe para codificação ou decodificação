@@ -1,0 +1,8 @@
+// Autor: Marcelo Rodrigues  
+// Busca por uso do Certutil.exe  
+// Detecta execuções suspeitas do certutil, comum em ataques para baixar arquivos ou modificar certificados  
+DeviceProcessEvents  
+| order by Timestamp desc // Ordena por data mais recente primeiro  
+| where FileName == "certutil.exe" // Filtra execuções do Certutil  
+| where ProcessCommandLine has_any ("-urlcache", "-decode", "-decodehex", "-encode", "-f") // Identifica possíveis usos maliciosos  
+| project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine, InitiatingProcessFileName, FolderPath, SHA256, ProcessVersionInfoCompanyName  
