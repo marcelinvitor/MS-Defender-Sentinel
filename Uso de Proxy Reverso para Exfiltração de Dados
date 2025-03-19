@@ -1,0 +1,6 @@
+// Autor: Marcelo Rodrigues
+// Detecta o Uso de Proxy Reverso para Exfiltração de Dados
+// Identificar uso indevido de ferramentas como Ngrok e FRP, utilizadas para burlar firewalls e permitir acesso remoto não autorizado.
+DeviceProcessEvents
+| where InitiatingProcessFileName in ("ngrok.exe", "frpc.exe", "ssh.exe", "plink.exe") 
+| project Timestamp, DeviceName, InitiatingProcessAccountName, ProcessCommandLine
