@@ -1,0 +1,7 @@
+// Autor: Marcelo Rodrigues
+// Busca pela execução do CMD com o usuário SYSTEM, o que pode indicar elevação de privilégios 
+DeviceProcessEvents
+| order by Timestamp desc
+| where FileName == "cmd.exe"
+| where AccountName == "NT AUTHORITY\\SYSTEM"
+| project Timestamp, DeviceName, AccountName, FileName, FolderPath, SHA256, ProcessCommandLine, InitiatingProcessFileName,ProcessVersionInfoCompanyName
