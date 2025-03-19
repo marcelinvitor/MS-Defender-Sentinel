@@ -1,7 +1,7 @@
 // Autor: Marcelo Rodrigues
-//Busca pelo uso do net.exe chamado a partir do CMD, indicando possíveis manipulações de usuários e permissões.
+//Busca pelo uso do net.exe indicando possíveis manipulações de usuários e permissões.
 DeviceProcessEvents
-| order by Timestamp desc
 | where FileName == "net.exe"
-| where InitiatingProcessFileName == "cmd.exe"
+| where ProcessCommandLine matches regex @"\b(net\s+(user|group|localgroup|accounts|view|use))\b"
 | project Timestamp, DeviceName, InitiatingProcessAccountName, InitiatingProcessFileName, ProcessCommandLine, InitiatingProcessVersionInfoCompanyName, InitiatingProcessSHA256
+| order by Timestamp desc
