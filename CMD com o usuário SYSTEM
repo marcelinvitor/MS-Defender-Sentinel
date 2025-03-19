@@ -1,5 +1,6 @@
 // Autor: Marcelo Rodrigues
 // Busca por comandos do CMD sendo executados com privilégios SYSTEM, o que pode indicar elevação de privilégios. 
+// Ignora execuções do cmd.exe feitas por processos que são considerados confiáveis.
 DeviceProcessEvents
 | order by Timestamp desc
 | where AccountName == "system" or AccountName == "sistema" 
