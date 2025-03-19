@@ -1,0 +1,7 @@
+//Autor: Marcelo Rodrigues
+// Detecção de Movimentação Lateral via PsExec, WMI ou RDP
+// Identifica técnicas de movimentação lateral utilizadas por atacantes para se espalharem na rede.
+DeviceProcessEvents 
+| where InitiatingProcessFileName in ("psexec.exe", "wmic.exe", "mstsc.exe") 
+| where ProcessCommandLine contains "\\" 
+| project Timestamp, DeviceName, AccountName, ProcessCommandLine, InitiatingProcessFileName,FolderPath,SHA256,ProcessVersionInfoCompanyName,InitiatingProcessParentFileName
