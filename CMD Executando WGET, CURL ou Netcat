@@ -3,6 +3,7 @@
 DeviceProcessEvents
 | order by Timestamp desc
 | where InitiatingProcessFileName == "cmd.exe"
+| where InitiatingProcessFileName == "powershell"
 | where FileName in ("wget.exe", "curl.exe", "nc.exe", "netcat.exe")
 | where ProcessCommandLine contains "http"
-| project Timestamp, DeviceName, AccountName, FileName, FolderPath, SHA256, ProcessCommandLine, InitiatingProcessFileName,ProcessVersionInfoCompanyName
+| project Timestamp, DeviceName, InitiatingProcessFileName, FileName, InitiatingProcessAccountName, ProcessCommandLine, InitiatingProcessVersionInfoCompanyName, InitiatingProcessSHA256
