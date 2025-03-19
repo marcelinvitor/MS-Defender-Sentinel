@@ -1,0 +1,6 @@
+// Autor: Marcelo Rodrigues
+// Detecta conexões RDP (Remote Desktop Protocol) no ambiente
+DeviceLogonEvents
+| order by Timestamp desc
+| where LogonType == "RemoteInteractive"  // Logon via RDP
+| project Timestamp, DeviceName, AccountName, RemoteIP, LogonType, ActionType
