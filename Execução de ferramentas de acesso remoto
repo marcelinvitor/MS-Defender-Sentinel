@@ -1,0 +1,6 @@
+// Autor: Marcelo Rodrigues
+// Busca por execução de ferramentas de acesso remoto
+DeviceProcessEvents  
+| where InitiatingProcessFileName in ("anydesk.exe", "teamviewer.exe", "ammyy.exe", "aeroadmin.exe", "supremo.exe") 
+| where InitiatingProcessAccountName !contains "admin" 
+| project Timestamp, InitiatingProcessAccountName, DeviceName, FileName, ProcessCommandLine, InitiatingProcessFileName, FolderPath, SHA256, ProcessVersionInfoCompanyName
