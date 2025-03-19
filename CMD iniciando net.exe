@@ -4,4 +4,4 @@ DeviceProcessEvents
 | order by Timestamp desc
 | where FileName == "net.exe"
 | where InitiatingProcessFileName == "cmd.exe"
-| project Timestamp, DeviceName, AccountName, FileName, FolderPath, SHA256, ProcessCommandLine, InitiatingProcessFileName,ProcessVersionInfoCompanyName
+| project Timestamp, DeviceName, InitiatingProcessAccountName, InitiatingProcessFileName, ProcessCommandLine, InitiatingProcessVersionInfoCompanyName, InitiatingProcessSHA256
