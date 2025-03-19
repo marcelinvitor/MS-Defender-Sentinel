@@ -1,0 +1,7 @@
+// Autor: Marcelo Rodrigues
+//Busca pelo uso do net.exe chamado a partir do CMD, indicando possíveis manipulações de usuários e permissões.
+DeviceProcessEvents
+| order by Timestamp desc
+| where FileName == "net.exe"
+| where InitiatingProcessFileName == "cmd.exe"
+| project Timestamp, DeviceName, AccountName, FileName, FolderPath, SHA256, ProcessCommandLine, InitiatingProcessFileName,ProcessVersionInfoCompanyName
